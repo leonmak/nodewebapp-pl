@@ -5,6 +5,13 @@ var objectId = require('mongodb').ObjectId;
 
 var router = function(nav){
 
+  bookRouter.use(function(req,res,next){
+    if(!req.user){
+      res.redirect('/');
+    }
+    next();
+  });
+
   bookRouter.route('/')
   .get(function(req,res){
 
@@ -31,16 +38,16 @@ var router = function(nav){
     mongodb.connect(url, function(err,db){
       var collection = db.collection('books');
       collection.findOne({_id:id},
-      function(err,results){
-        res.render('bookView',{
-          title: 'Book',
-          nav : nav,
-          book: results
+        function(err,results){
+          res.render('bookView',{
+            title: 'Book',
+            nav : nav,
+            book: results
+          });
         });
       });
     });
-  });
-  return bookRouter;
-};
+    return bookRouter;
+  };
 
-    module.exports = router;
+  module.exports = router;
