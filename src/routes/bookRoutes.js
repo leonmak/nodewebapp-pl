@@ -1,73 +1,78 @@
 var express = require('express');
 var bookRouter = express.Router();
 
-var books = [
-{
-    title: 'War and Peace',
-    genre: 'Historical Fiction',
-    author: 'Lev Nikolayevich Tolstoy',
-    read: false
+var router = function(nav){
+  var books = [
+    {
+      title: 'War and Peace',
+      genre: 'Historical Fiction',
+      author: 'Lev Nikolayevich Tolstoy',
+      read: false
     },
-{
-    title: 'Les Misérables',
-    genre: 'Historical Fiction',
-    author: 'Victor Hugo',
-    read: false
+    {
+      title: 'Les Misérables',
+      genre: 'Historical Fiction',
+      author: 'Victor Hugo',
+      read: false
     },
-{
-    title: 'The Time Machine',
-    genre: 'Science Fiction',
-    author: 'H. G. Wells',
-    read: false
+    {
+      title: 'The Time Machine',
+      genre: 'Science Fiction',
+      author: 'H. G. Wells',
+      read: false
     },
-{
-    title: 'A Journey into the Center of the Earth',
-    genre: 'Science Fiction',
-    author: 'Jules Verne',
-    read: false
+    {
+      title: 'A Journey into the Center of the Earth',
+      genre: 'Science Fiction',
+      author: 'Jules Verne',
+      read: false
     },
-{
-    title: 'The Dark World',
-    genre: 'Fantasy',
-    author: 'Henry Kuttner',
-    read: false
+    {
+      title: 'The Dark World',
+      genre: 'Fantasy',
+      author: 'Henry Kuttner',
+      read: false
     },
-{
-    title: 'The Wind in the Willows',
-    genre: 'Fantasy',
-    author: 'Kenneth Grahame',
-    read: false
+    {
+      title: 'The Wind in the Willows',
+      genre: 'Fantasy',
+      author: 'Kenneth Grahame',
+      read: false
     },
-{
-    title: 'Life On The Mississippi',
-    genre: 'History',
-    author: 'Mark Twain',
-    read: false
+    {
+      title: 'Life On The Mississippi',
+      genre: 'History',
+      author: 'Mark Twain',
+      read: false
     },
-{
-    title: 'Childhood',
-    genre: 'Biography',
-    author: 'Lev Nikolayevich Tolstoy',
-    read: false
+    {
+      title: 'Childhood',
+      genre: 'Biography',
+      author: 'Lev Nikolayevich Tolstoy',
+      read: false
     }
-];
+  ];
 
-bookRouter.route('/')
+  bookRouter.route('/')
   .get(function(req,res){
-    res.render('books', {
+    res.render('bookListView', {
       title : 'DA TITLE',
-      nav : [{
-        link:'/books',text:'books'
-      },{
-        link:'/authors',text:'authors'
-      }],
+      nav : nav,
       books : books
     });
   });
 
-bookRouter.route('/single')
+  bookRouter.route('/:id')
   .get(function(req,res){
-    res.send('Hey Book');
+    var id = req.params.id;
+    res.render('bookView',{
+      title: 'Book',
+      nav : nav,
+      book: books[id]
+    });
   });
 
-module.exports = bookRouter;
+  return bookRouter;
+};
+
+module.exports = router;

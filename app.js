@@ -2,7 +2,13 @@ var express = require('express');
 var app = express();
 var port = process.env.PORT || 3000;
 
-var bookRouter = require('./src/routes/bookRoutes');
+var nav = [{
+      link:'/books',text:'book'
+    },{
+      link:'/authors',text:'author'
+    }];
+
+var bookRouter = require('./src/routes/bookRoutes')(nav);
 
 // static directories, url
 app.use(express.static('public'));
@@ -14,20 +20,12 @@ app.set('view engine', 'ejs');
 app.use('/Books', bookRouter);
 
 app.get('/', function(req,res){
-  // res.send('Hello Hello');
   res.render('index', {
     title:'DA TITLE',
-    nav:[{
-      link:'/books',text:'books'
-    },{
-      link:'/authors',text:'authors'
-    }]
+    nav: nav
   });
 });
 
-app.get('/books', function(req,res){
-  res.send('Hello Bokos');
-});
 
 app.listen(port, function(err){
   console.log('running on '+ port);

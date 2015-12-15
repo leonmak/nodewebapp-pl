@@ -225,22 +225,43 @@ var bookRouter = require('./src/routes/bookRoutes');
 app.use('/Books', bookRouter);
 ```
 ```js
+app.js
+var nav = [{
+      link:'/books',text:'book'
+    },{
+      link:'/authors',text:'author'
+    }];
+var bookRouter = require('./src/routes/bookRoutes')(nav);
+```
+```js
 // bookRoutes.js
 var express = require('express');
 var bookRouter = express.Router();
-...
-bookRouter.route('/')
+
+var router = function(nav){
+  var books = {[...]}
+
+  bookRouter.route('/')
   .get(function(req,res){
-    res.render('books', {
+    res.render('bookListView', {
       title : 'DA TITLE',
-      nav : [{
-        link:'/books',text:'books'
-      },{
-        link:'/authors',text:'authors'
-      }],
+      nav : nav,
       books : books
     });
   });
-...
-module.exports = bookRouter;
+
+  bookRouter.route('/:id')
+  .get(function(req,res){
+    var id = req.params.id;
+    res.render('bookView',{
+      title: 'Book',
+      nav : nav,
+      book: books[id]
+    });
+  });
+
+  return bookRouter;
+};
+
+module.exports = router;
 ```
