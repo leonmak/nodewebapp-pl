@@ -12,7 +12,8 @@
   "dependencies": {
     "ejs": "^2.3.4",
     "express": "^4.13.3",
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "mongodb": "^2.0.52"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
